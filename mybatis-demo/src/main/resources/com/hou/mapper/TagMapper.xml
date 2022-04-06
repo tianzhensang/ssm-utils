@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:命名空间 -->
+<mapper namespace="com.hou.mapper.TagMapper">
+
+    <!--
+        数据库与类中名字不一样，所以是空值
+        数据库中是tag_id，类中是tagId驼峰命名
+        1.起别名，查询sql语句多了，一直起别名比较麻烦，其实并没有感觉麻烦，如果类很固定的话
+        <select id="selectAll" resultType="com.hou.pojo.Tag">
+            select tag_id as tagId,tag_name as tagName,tag_description as tagDescription
+            from tag;
+        </select>
+        2.Sql片段,写的太死了，要是查单独的属性还要重新定义吗，太麻烦了
+        <sql id="tag_column">
+            tag_id as tagId,tag_name as tagName,tag_description as tagDescription
+        </sql>
+        <select id="selectAll" resultType="com.hou.pojo.Tag">
+            select
+                <include refid="tag_column"></include>
+            from tag;
+        </select>
+        3.ResultMap，当数据库字段与类字段不一样时一般使用这种方法，事先在ResultMap中定义好映射，sql中接随便写了
+        其中column是数据库中的字段，property是类中的名称，id是主键，result是其他
+        <resultMap id="TagResultMap" type="com.hou.pojo.Tag">
+            <id column="tag_id" property="tagId"></id>
+            <result column="tag_name" property="tagName"></result>
+            <result column="tag_description" property="tagDescription"></result>
+        </resultMap>
+        <select id="selectAll" resultMap="TagResultMap">
+            select
+                *
+            from tag;
+        </select>
+    -->
+
+    <resultMap id="TagResultMap" type="com.hou.pojo.Tag">
+        <id column="tag_id" property="tagId"></id>
+        <result column="tag_name" property="tagName"></result>
+        <result column="tag_description" property="tagDescription"></result>
+    </resultMap>
+
+    <select id="selectAll" resultMap="TagResultMap">
+        select
+          *
+        from tag;
+    </select>
+</mapper>

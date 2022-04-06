@@ -3,8 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <!--
+        typeAliases是起别名，扫描com.hou.pojo下的类，使类不区分大小写，在UserMapper.xml中不用再加包名
+    -->
+    <typeAliases>
+        <package name="com.hou.pojo"/>
+    </typeAliases>
+
+    <!--
+        environment标签用于区分不同的环境，development是开发环境，test是测试环境，product是生产环境，通过
+    配置environments中的default选择不同的数据库，连接不同的数据库
+    -->
     <environments default="development">
         <environment id="development">
+            <!-- transactionManager是事务管理模式，在Spring中配-->
+            <transactionManager type="JDBC"/>
+            <!-- dataSource是数据库连接池，在Spring中配-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/forest_blog?useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="246800"/>
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/forest_blog?useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="246800"/>
+            </dataSource>
+        </environment>
+
+        <environment id="product">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
@@ -16,6 +50,10 @@
     </environments>
     <mappers>
         <!-- 加载sql映射文件 -->
-        <mapper resource="UserMapper.xml"/>
+        <!--<mapper resource="com/hou/mapper/UserMapper.xml"/>-->
+
+        <!-- Mapper代理方式-->
+        <package name="com.hou.mapper"/>
+        
     </mappers>
 </configuration>
